@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timing Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="game-container">
+
+        <h1>Timing Game</h1>
+
+        <div class="setting-area">
+
+            <button id="soundToggleButton">
+                🔊 SOUND
+            </button>
+
+            <div id="soundPanel" class="hidden">
+
+                <div class="volume-group">
+
+                    <label for="bgmVolume">
+                        BGM
+                    </label>
+
+                    <input
+                        type="range"
+                        id="bgmVolume"
+                        min="0"
+                        max="1"
+                        step="0.01"
+                        value="0.5"
+                    >
+
+                </div>
+
+                <div class="volume-group">
+
+                    <label for="seVolume">
+                        SE
+                    </label>
+
+                    <input
+                        type="range"
+                        id="seVolume"
+                        min="0"
+                        max="1"
+                        step="0.01"
+                        value="0.7"
+                    >
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="info">
+
+            <div id="score">
+                SCORE : 0
+            </div>
+
+            <div id="round">
+                ROUND : 1
+            </div>
+
+        </div>
+
+        <div class="character-area">
+
+            <img
+                id="character"
+                src="assets/img/normal.png"
+                alt="character"
+            >
+
+        </div>
+
+        <div class="gauge-wrapper">
+
+            <div class="gauge">
+
+                <div id="perfectZone"></div>
+
+                <div id="gaugeCursor"></div>
+
+            </div>
+
+        </div>
+
+        <div id="resultText">
+            PRESS SPACE
+        </div>
+
+        <button id="startButton">
+            START
+        </button>
+
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+</html>

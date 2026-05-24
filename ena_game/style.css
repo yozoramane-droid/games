@@ -1,0 +1,181 @@
+body {
+  margin: 0;
+  background: #1b1b1b;
+  color: white;
+  font-family: sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.game-container {
+  width: 700px;
+  text-align: center;
+}
+
+h1 {
+  margin-bottom: 10px;
+}
+
+.info {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+.character-area {
+  margin-bottom: 30px;
+}
+
+#character {
+  width: 220px;
+  transition: transform 0.2s;
+}
+
+.gauge-wrapper {
+  margin-bottom: 30px;
+}
+
+.gauge {
+  width: 100%;
+  height: 40px;
+  background: #444;
+  border: 4px solid white;
+  position: relative;
+  overflow: hidden;
+}
+
+#perfectZone {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 100%;
+  background: rgba(255, 255, 0, 0.4);
+}
+
+#gaugeCursor {
+  position: absolute;
+  width: 20px;
+  height: 100%;
+  background: red;
+  left: 0;
+}
+
+#resultText {
+  font-size: 48px;
+  font-weight: bold;
+  height: 60px;
+  margin-bottom: 20px;
+}
+
+#startButton {
+  font-size: 24px;
+  padding: 12px 32px;
+  cursor: pointer;
+  border: none;
+  background: orange;
+  color: white;
+  border-radius: 8px;
+}
+
+.perfect {
+  color: gold;
+  animation: pop 0.3s;
+}
+
+.good {
+  color: lime;
+  animation: pop 0.3s;
+}
+
+.miss {
+  color: red;
+  animation: shake 0.3s;
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.4);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+
+  25% {
+    transform: translateX(-10px);
+  }
+
+  50% {
+    transform: translateX(10px);
+  }
+
+  75% {
+    transform: translateX(-10px);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.audio-control {
+  margin-bottom: 25px;
+}
+
+.volume-group {
+  margin-bottom: 12px;
+}
+
+.volume-group label {
+  display: inline-block;
+  width: 60px;
+  font-size: 20px;
+}
+
+.volume-group input[type="range"] {
+  width: 300px;
+}
+
+
+.setting-area {
+  margin-bottom: 20px;
+}
+
+#soundToggleButton {
+  font-size: 18px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background: #555;
+  color: white;
+}
+
+#soundToggleButton:hover {
+  background: #777;
+}
+
+#soundPanel {
+  margin-top: 15px;
+  padding: 15px;
+  background: #2d2d2d;
+  border-radius: 10px;
+}
+
+.hidden {
+  display: none;
+}
