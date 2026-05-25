@@ -1,17 +1,39 @@
+
 body {
-  margin: 0;
-  background: #1b1b1b;
-  color: white;
-  font-family: sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+    margin: 0;
+    color: white;
+    font-family: sans-serif;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    min-height: 100vh;
+
+    background-image:
+        url("assets/img/background.png");
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    overflow: hidden;
+
+    touch-action: manipulation;
 }
 
 .game-container {
-  width: 700px;
-  text-align: center;
+    width: min(700px, 95vw);
+
+    background: rgba(0, 0, 0, 0.6);
+
+    padding: 24px;
+
+    border-radius: 20px;
+
+    backdrop-filter: blur(4px);
+
+    text-align: center;
 }
 
 h1 {
@@ -24,14 +46,18 @@ h1 {
   margin-bottom: 20px;
   font-size: 24px;
 }
-
 .character-area {
-  margin-bottom: 30px;
+    margin-bottom: 30px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #character {
-  width: 220px;
-  transition: transform 0.2s;
+    width: min(220px, 60vw);
+
+    transition: transform 0.2s;
 }
 
 .gauge-wrapper {
@@ -48,20 +74,22 @@ h1 {
 }
 
 #perfectZone {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 80px;
-  height: 100%;
-  background: rgba(255, 255, 0, 0.4);
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 12%;
+    height: 100%;
+    background: rgba(255, 255, 0, 0.4);
 }
 
 #gaugeCursor {
-  position: absolute;
-  width: 20px;
-  height: 100%;
-  background: red;
-  left: 0;
+    position: absolute;
+    width: 3%;
+    min-width: 12px;
+    height: 100%;
+    background: red;
+    left: 0;
+    transform: translateX(-50%);
 }
 
 #resultText {

@@ -3,12 +3,6 @@ const resultText = document.getElementById("resultText");
 const character = document.getElementById("character");
 const scoreText = document.getElementById("score");
 const roundText = document.getElementById("round");
-const startButton = document.getElementById("startButton");
-
-const gaugeWidth = 700;
-const cursorWidth = 20;
-
-const perfectCenter = gaugeWidth / 2;
 
 const soundToggleButton =
   document.getElementById("soundToggleButton");
@@ -20,7 +14,7 @@ const soundPanel =
 
 let position = 0;
 let direction = 1;
-let speed = 7;
+let speed = 1;
 
 let animationId = null;
 
@@ -66,26 +60,30 @@ function startGame() {
 
   bgm.play();
 
-  resultText.textContent = "PRESS SPACE";
+  resultText.textContent = "画面をタッチ";
 
   updateGauge();
 }
 
 function updateGauge() {
 
-  position += speed * direction;
+    position += speed * direction;
 
-  if (position >= gaugeWidth - cursorWidth) {
-    direction = -1;
-  }
+    if (position >= 100) {
+        position = 100;
+        direction = -1;
+    }
 
-  if (position <= 0) {
-    direction = 1;
-  }
+    if (position <= 0) {
+        position = 0;
+        direction = 1;
+    }
 
-  gaugeCursor.style.left = position + "px";
+    gaugeCursor.style.left =
+        position + "%";
 
-  animationId = requestAnimationFrame(updateGauge);
+    animationId =
+        requestAnimationFrame(updateGauge);
 }
 
 function stopGauge() {
@@ -100,71 +98,75 @@ function stopGauge() {
 
   judge();
 }
-
 function judge() {
 
-  const cursorCenter = position + cursorWidth / 2;
+    const distance =
+        Math.abs(position - 50);
 
-  const distance = Math.abs(cursorCenter - perfectCenter);
-
-  let result = "";
-
-  resultText.className = "";
-
-  if (distance < 20) {
-
-    result = "PERFECT";
-
-    resultText.classList.add("perfect");
-
-    score += 100;
-
-    perfectSe.play();
-
-    changeCharacter("happy");
-
-  } else if (distance < 60) {
-
-    result = "GOOD";
-
-    resultText.classList.add("good");
-
-    score += 50;
-
-    hitSe.play();
-
-    changeCharacter("happy");
-
-  } else {
-
-    result = "MISS";
-
-    resultText.classList.add("miss");
-
-    missSe.play();
-
-    changeCharacter("sad");
-  }
-
-  resultText.textContent = result;
-
-  scoreText.textContent = `SCORE : ${score}`;
-
-  round++;
-
-  roundText.textContent = `ROUND : ${round}`;
-
-  speed += 0.5;
-
-  setTimeout(() => {
+    let result = "";
 
     resultText.className = "";
 
-    resultText.textContent = "PRESS SPACE";
+    if (distance < 2) {
 
-    resetRound();
+        result = "すごい！";
 
-  }, 1500);
+        resultText.classList.add("perfect");
+
+        score += 100;
+
+        perfectSe.currentTime = 0;
+        perfectSe.play();
+
+        changeCharacter("happy");
+
+    } else if (distance < 9) {
+
+        result = "いいね！";
+
+        resultText.classList.add("good");
+
+        score += 50;
+
+        hitSe.currentTime = 0;
+        hitSe.play();
+
+        changeCharacter("happy");
+
+    } else {
+
+        result = "ざんねん";
+
+        resultText.classList.add("miss");
+
+        missSe.currentTime = 0;
+        missSe.play();
+
+        changeCharacter("sad");
+    }
+
+    resultText.textContent = result;
+
+    scoreText.textContent =
+        `SCORE : ${score}`;
+
+    round++;
+
+    roundText.textContent =
+        `ROUND : ${round}`;
+
+    speed += 0.06;
+
+    setTimeout(() => {
+
+        resultText.className = "";
+
+        resultText.textContent =
+            "PRESS SPACE";
+
+        resetRound();
+
+    }, 1500);
 }
 
 function resetRound() {
@@ -173,7 +175,7 @@ function resetRound() {
 
   direction = 1;
 
-  gaugeCursor.style.left = "0px";
+  gaugeCursor.style.left = "0%";
 
   isPlaying = true;
 
@@ -205,6 +207,10 @@ function changeCharacter(type) {
 }
 
 document.addEventListener("keydown", (e) => {
+
+    if (e.code === "Space") {
+        e.preventDefault();
+    }
 
     if (e.code === "Enter") {
 
@@ -240,9 +246,7 @@ soundToggleButton.addEventListener("click", () => {
 
 function beginGame() {
 
-    if (startButton.style.display !== "none") {
-
-        startButton.style.display = "none";
+    if (!isPlaying && round === 1 && score === 0) {
 
         startGame();
     }
@@ -257,12 +261,7 @@ function handleAction() {
     stopGauge();
 }
 
-startButton.addEventListener("click", () => {
-
-    beginGame();
-});
-
-document.addEventListener("click", (e) => {
+document.addEventListener("pointerdown", (e) => {
 
     if (e.target.id === "soundToggleButton") {
         return;
@@ -276,30 +275,7 @@ document.addEventListener("click", (e) => {
         return;
     }
 
-    if (startButton.style.display !== "none") {
-
-        beginGame();
-
-    } else {
-
-        handleAction();
-    }
-});
-document.addEventListener("touchstart", (e) => {
-
-    if (e.target.id === "soundToggleButton") {
-        return;
-    }
-
-    if (e.target.id === "bgmVolume") {
-        return;
-    }
-
-    if (e.target.id === "seVolume") {
-        return;
-    }
-
-    if (startButton.style.display !== "none") {
+    if (!isPlaying && round === 1 && score === 0){
 
         beginGame();
 
