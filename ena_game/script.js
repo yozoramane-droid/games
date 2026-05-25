@@ -120,7 +120,7 @@ function judge() {
 
         changeCharacter("happy");
 
-    } else if (distance < 9) {
+    } else if (distance < 10) {
 
         result = "いいね！";
 
@@ -162,7 +162,7 @@ function judge() {
         resultText.className = "";
 
         resultText.textContent =
-            "PRESS SPACE";
+            "タッチ";
 
         resetRound();
 

@@ -75,21 +75,74 @@ h1 {
 
 #perfectZone {
     position: absolute;
+
     left: 50%;
+
     transform: translateX(-50%);
-    width: 12%;
+
+    width: 4%;
+
+    min-width: 16px;
+
     height: 100%;
-    background: rgba(255, 255, 0, 0.4);
+
+    background:
+        linear-gradient(
+            to bottom,
+            #fff799,
+            #ffcc00
+        );
+
+    border-left:
+        2px solid white;
+
+    border-right:
+        2px solid white;
+
+    box-shadow:
+        0 0 8px #ffe600,
+        0 0 16px orange;
+
+    animation:
+        perfectGlow 0.8s infinite alternate;
 }
 
+@keyframes perfectGlow {
+
+    from {
+        filter: brightness(1);
+    }
+
+    to {
+        filter: brightness(1.35);
+    }
+}
 #gaugeCursor {
     position: absolute;
+
     width: 3%;
-    min-width: 12px;
+
+    min-width: 14px;
+
+    max-width: 20px;
+
     height: 100%;
-    background: red;
+
+    background:
+        linear-gradient(
+            to bottom,
+            #ff6666,
+            #cc0000
+        );
+
     left: 0;
+
     transform: translateX(-50%);
+
+    border-radius: 6px;
+
+    box-shadow:
+        0 0 10px red;
 }
 
 #resultText {
