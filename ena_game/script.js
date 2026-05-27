@@ -1,19 +1,39 @@
-const gaugeCursor = document.getElementById("gaugeCursor");
-const resultText = document.getElementById("resultText");
-const character = document.getElementById("character");
-const scoreText = document.getElementById("score");
-const roundText = document.getElementById("round");
+const gaugeCursor =
+    document.getElementById("gaugeCursor");
+
+const resultText =
+    document.getElementById("resultText");
+
+const character =
+    document.getElementById("character");
+
+const scoreText =
+    document.getElementById("score");
+
+const roundText =
+    document.getElementById("round");
 
 const soundToggleButton =
-  document.getElementById("soundToggleButton");
+    document.getElementById("soundToggleButton");
 
 const soundPanel =
-  document.getElementById("soundPanel");
+    document.getElementById("soundPanel");
+
+const bgmVolumeSlider =
+    document.getElementById("bgmVolume");
+
+const seVolumeSlider =
+    document.getElementById("seVolume");
+
+const voiceVolumeSlider =
+    document.getElementById("voiceVolume");
 
 
 
 let position = 0;
+
 let direction = 1;
+
 let speed = 1;
 
 let animationId = null;
@@ -21,61 +41,118 @@ let animationId = null;
 let isPlaying = false;
 
 let score = 0;
+
 let round = 1;
 
-let bgmVolume = 0.5;
+
+
+let bgmVolumeCal = 0.2;
+let seVolumeCal = 0.2;
+let voiceVolumeCal = 1.2;
+
+let bgmVolume = 0.7;
 let seVolume = 0.7;
-
-const bgm = new Audio("assets/audio/bgm.mp3");
-const perfectSe = new Audio("assets/audio/perfect.mp3");
-const hitSe = new Audio("assets/audio/hit.mp3");
-const missSe = new Audio("assets/audio/miss.mp3");
-
-bgm.volume = bgmVolume;
-
-perfectSe.volume = seVolume;
-hitSe.volume = seVolume;
-missSe.volume = seVolume;
+let voiceVolume = 0.8;
 
 
 
-const bgmVolumeSlider =
-  document.getElementById("bgmVolume");
+const bgm =
+    new Audio("assets/audio/bgm.mp3");
 
-const seVolumeSlider =
-  document.getElementById("seVolume");
+const perfectSe =
+    new Audio("assets/audio/perfect.mp3");
+
+const hitSe =
+    new Audio("assets/audio/hit.mp3");
+
+const missSe =
+    new Audio("assets/audio/miss.mp3");
+
+const hitVoice =
+    new Audio("assets/audio/good_voice.mp3");
+
+const missVoice =
+    new Audio("assets/audio/miss_voice.mp3");
+
+
 
 bgm.loop = true;
 
 
 
+setVolumes();
+
+
+
+function setVolumes() {
+
+    bgm.volume =
+        bgmVolume * bgmVolumeCal;
+
+    perfectSe.volume =
+        seVolume * seVolumeCal;
+
+    hitSe.volume =
+        seVolume * seVolumeCal;
+
+    missSe.volume =
+        seVolume * seVolumeCal;
+
+    hitVoice.volume =
+        voiceVolume * voiceVolumeCal;
+
+    missVoice.volume =
+        voiceVolume * voiceVolumeCal;
+}
+
+
+
+function playSound(audio) {
+
+    const sound =
+        audio.cloneNode();
+
+    sound.volume =
+        audio.volume;
+
+    sound.play();
+}
+
+
 
 function startGame() {
 
-  if (isPlaying) {
-    return;
-  }
+    if (isPlaying) {
+        return;
+    }
 
-  isPlaying = true;
+    isPlaying = true;
 
-  bgm.play();
+    bgm.play();
 
-  resultText.textContent = "画面をタッチ";
+    resultText.textContent =
+        "画面をタッチ";
 
-  updateGauge();
+    updateGauge();
 }
+
+
 
 function updateGauge() {
 
     position += speed * direction;
 
     if (position >= 100) {
+
         position = 100;
+
         direction = -1;
     }
 
     if (position <= 0) {
+
         position = 0;
+
         direction = 1;
     }
 
@@ -86,18 +163,23 @@ function updateGauge() {
         requestAnimationFrame(updateGauge);
 }
 
+
+
 function stopGauge() {
 
-  if (!isPlaying) {
-    return;
-  }
+    if (!isPlaying) {
+        return;
+    }
 
-  cancelAnimationFrame(animationId);
+    cancelAnimationFrame(animationId);
 
-  isPlaying = false;
+    isPlaying = false;
 
-  judge();
+    judge();
 }
+
+
+
 function judge() {
 
     const distance =
@@ -107,6 +189,8 @@ function judge() {
 
     resultText.className = "";
 
+
+
     if (distance < 2) {
 
         result = "すごい！";
@@ -115,8 +199,9 @@ function judge() {
 
         score += 100;
 
-        perfectSe.currentTime = 0;
-        perfectSe.play();
+        playSound(perfectSe);
+
+        playSound(hitVoice);
 
         changeCharacter("happy");
 
@@ -128,8 +213,9 @@ function judge() {
 
         score += 50;
 
-        hitSe.currentTime = 0;
-        hitSe.play();
+        playSound(hitSe);
+
+        playSound(hitVoice);
 
         changeCharacter("happy");
 
@@ -139,13 +225,17 @@ function judge() {
 
         resultText.classList.add("miss");
 
-        missSe.currentTime = 0;
-        missSe.play();
+        playSound(missSe);
+
+        playSound(missVoice);
 
         changeCharacter("sad");
     }
 
-    resultText.textContent = result;
+
+
+    resultText.textContent =
+        result;
 
     scoreText.textContent =
         `SCORE : ${score}`;
@@ -155,7 +245,11 @@ function judge() {
     roundText.textContent =
         `ROUND : ${round}`;
 
+
+
     speed += 0.06;
+
+
 
     setTimeout(() => {
 
@@ -169,88 +263,69 @@ function judge() {
     }, 1500);
 }
 
+
+
 function resetRound() {
 
-  position = 0;
+    position = 0;
 
-  direction = 1;
+    direction = 1;
 
-  gaugeCursor.style.left = "0%";
+    gaugeCursor.style.left =
+        "0%";
 
-  isPlaying = true;
+    isPlaying = true;
 
-  updateGauge();
+    updateGauge();
 }
+
+
 
 function changeCharacter(type) {
 
-  if (type === "happy") {
+    if (type === "happy") {
 
-    character.src = "assets/img/happy.png";
+        character.src =
+            "assets/img/happy.png";
 
-    character.style.transform = "scale(1.15)";
+        character.style.transform =
+            "scale(1.15)";
 
-  } else {
+    } else {
 
-    character.src = "assets/img/sad.png";
+        character.src =
+            "assets/img/sad.png";
 
-    character.style.transform = "scale(0.9)";
-  }
+        character.style.transform =
+            "scale(0.9)";
+    }
 
-  setTimeout(() => {
 
-    character.src = "assets/img/normal.png";
 
-    character.style.transform = "scale(1)";
+    setTimeout(() => {
 
-  }, 1000);
+        character.src =
+            "assets/img/normal.png";
+
+        character.style.transform =
+            "scale(1)";
+
+    }, 1000);
 }
 
-document.addEventListener("keydown", (e) => {
 
-    if (e.code === "Space") {
-        e.preventDefault();
-    }
-
-    if (e.code === "Enter") {
-
-        beginGame();
-    }
-
-    if (e.code === "Space") {
-
-        handleAction();
-    }
-});
-
-bgmVolumeSlider.addEventListener("input", (e) => {
-
-  bgmVolume = Number(e.target.value);
-
-  bgm.volume = bgmVolume;
-});
-
-seVolumeSlider.addEventListener("input", (e) => {
-
-  seVolume = Number(e.target.value);
-
-  perfectSe.volume = seVolume;
-  hitSe.volume = seVolume;
-  missSe.volume = seVolume;
-});
-
-soundToggleButton.addEventListener("click", () => {
-
-  soundPanel.classList.toggle("hidden");
-});
 
 function beginGame() {
 
-    if (!isPlaying && round === 1 && score === 0) {
+    if (!isPlaying &&
+        round === 1 &&
+        score === 0) {
 
         startGame();
     }
 }
+
+
 
 function handleAction() {
 
@@ -261,26 +336,101 @@ function handleAction() {
     stopGauge();
 }
 
-document.addEventListener("pointerdown", (e) => {
 
-    if (e.target.id === "soundToggleButton") {
-        return;
+
+document.addEventListener(
+    "keydown",
+    (e) => {
+
+        if (e.code === "Space") {
+
+            e.preventDefault();
+
+            handleAction();
+        }
+
+        if (e.code === "Enter") {
+
+            beginGame();
+        }
     }
+);
 
-    if (e.target.id === "bgmVolume") {
-        return;
+
+
+document.addEventListener(
+    "pointerdown",
+    (e) => {
+
+        if (
+            e.target.id === "soundToggleButton" ||
+            e.target.id === "bgmVolume" ||
+            e.target.id === "seVolume" ||
+            e.target.id === "voiceVolume"
+        ) {
+            return;
+        }
+
+        if (
+            !isPlaying &&
+            round === 1 &&
+            score === 0
+        ) {
+
+            beginGame();
+
+        } else {
+
+            handleAction();
+        }
     }
+);
 
-    if (e.target.id === "seVolume") {
-        return;
+
+
+bgmVolumeSlider.addEventListener(
+    "input",
+    (e) => {
+
+        bgmVolume =
+            Number(e.target.value);
+
+        setVolumes();
     }
+);
 
-    if (!isPlaying && round === 1 && score === 0){
 
-        beginGame();
 
-    } else {
+seVolumeSlider.addEventListener(
+    "input",
+    (e) => {
 
-        handleAction();
+        seVolume =
+            Number(e.target.value);
+
+        setVolumes();
     }
-});
+);
+
+
+
+soundToggleButton.addEventListener(
+    "click",
+    () => {
+
+        soundPanel.classList.toggle(
+            "hidden"
+        );
+    }
+);
+
+voiceVolumeSlider.addEventListener(
+    "input",
+    (e) => {
+
+        voiceVolume =
+            Number(e.target.value);
+
+        setVolumes();
+    }
+);
