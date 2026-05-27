@@ -48,11 +48,11 @@ let round = 1;
 
 let bgmVolumeCal = 0.2;
 let seVolumeCal = 0.2;
-let voiceVolumeCal = 1.2;
+let voiceVolumeCal = 1.0;
 
 let bgmVolume = 0.7;
 let seVolume = 0.7;
-let voiceVolume = 0.8;
+let voiceVolume = 0.9;
 
 
 
